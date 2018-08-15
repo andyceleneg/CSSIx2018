@@ -1,35 +1,294 @@
 <!DOCTYPE html>
 <html>
 <head lang="en">
-  <meta charset="UTF-8">
-  <title>Notes</title>
+         <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
+    <meta charset="utf-8">
 
-  <link rel="stylesheet" type="text/css" href="static/css/notes.css">
+<style>
+/* Always set the map height explicitly to define the size of the div
+       * element that contains the map. */
+      #map {
+        height: 1200px;
+        width: 1000px;
+      }
+      #description {
+        font-family: Roboto;
+        font-size: 15px;
+        font-weight: 300;
+      }
+
+      #infowindow-content .title {
+        font-weight: bold;
+      }
+
+      #infowindow-content {
+        display: none;
+      }
+
+      #map #infowindow-content {
+        display: inline;
+      }
+
+      .pac-card {
+        margin: 10px 10px 0 0;
+        border-radius: 2px 0 0 2px;
+        box-sizing: border-box;
+        -moz-box-sizing: border-box;
+        outline: none;
+        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+        background-color: #fff;
+        font-family: Roboto;
+      }
+
+      #pac-container {
+        padding-bottom: 12px;
+        margin-right: 12px;
+      }
+
+      .pac-controls {
+        display: inline-block;
+        padding: 5px 11px;
+      }
+
+      .pac-controls label {
+        font-family: Roboto;
+        font-size: 13px;
+        font-weight: 300;
+      }
+
+      #pac-input {
+        background-color: #fff;
+        font-family: Roboto;
+        font-size: 15px;
+        font-weight: 300;
+        margin-left: 12px;
+        padding: 0 11px 0 13px;
+        text-overflow: ellipsis;
+        width: 400px;
+      }
+
+      #pac-input:focus {
+        border-color: #4d90fe;
+      }
+
+      #title {
+        color: black;
+        background-color: white;
+        font-size: 25px;
+        font-weight: 500;
+        padding: 6px 12px;
+      }
+      #target {
+        width: 345px;
+      }
+
+/* Create two unequal columns that floats next to each other */
+/* Left column */
+.leftcolumn {
+    float: left;
+    width: 60%;
+}
+
+/* Right column */
+.rightcolumn {
+    float: left;
+    width: 40%;
+    background-color: #f1f1f1;
+    padding-left: 20px;
+}
+
+* {box-sizing: border-box;}
+
+body {
+  margin: 0;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+.header {
+  overflow: hidden;
+  background-color: black;
+  padding: 10px 10px;
+}
+
+.header a {
+  float: left;
+  color: white;
+  text-align: center;
+  padding: 12px;
+  text-decoration: none;
+  font-size: 18px;
+  line-height: 25px;
+  border-radius: 4px;
+}
+
+.header a.logo {
+  font-size: 25px;
+  font-weight: bold;
+}
+
+.header a:hover {
+  background-color: purple;
+  color: white;
+}
+
+.header a.active {
+  background-color: purple;
+  color: white;
+}
+
+.header-right {
+  float: right;
+}
+
+@media screen and (max-width: 500px) {
+  .header a {
+    float: none;
+    display: block;
+    text-align: left;
+  }
+  .header-right {
+    float: none;
+  }
+}
+
+body {
+    font-family: "helvetica", sans-serif;
+    background: #e8e8e8;
+    color: rgba(39,65,90,.9);
+    text-align: center;
+}
+
+div.container {
+    background: white;
+    width: 600px;
+    display: inline-block;
+}
+
+form {
+    background: White;
+    padding-bottom: 0.5em;
+    margin-bottom: 30px;
+}
+
+h4,legend {
+    margin-bottom: 10px;
+    font-size: 21px;
+    font-weight: 400;
+    width: 100%;
+}
+
+div.form-group {
+    margin-bottom: 1em;
+}
+
+label {
+    display: inline-block;
+    width: 120px;
+    text-align: right;
+    padding-right: 15px;
+}
+
+input, textarea {
+    width: 250px;
+    height: 35px;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    border: 1px solid #999;
+    font-size: 14px;
+    border-radius: 4px;
+    padding: 6px;
+}
+
+textarea {
+    vertical-align: top;
+    height: 5em;
+    resize: vertical;
+}
+
+div.note {
+    background: white;
+    vertical-align: baseline;
+    display: block;
+    margin: 0 auto 30px auto;
+}
+
+legend, div.note > h4 {
+    padding: 18px 0 15px;
+    margin: 0 0 10px;
+    background: purple;
+    color: white;
+}
+
+div.note > ul {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    border-top: 2px solid #e7f2f0;
+}
+
+div.note > ul > li {
+    font-size: 21px;
+    padding: 18px 0 18px 18px;
+    border-bottom: 2px solid #e7f2f0;
+    text-align: left;
+}
+
+p.note-content {
+    text-align: left;
+    padding: 0.5em;
+}
+
+.checked {
+    text-decoration: line-through;
+}
+
+.footer {
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    background-color: black;
+    color: white;
+    text-align: center;
+    padding: 10px 10px;
+}
+
+</style>
 </head>
 <body>
+  <div class="header">
+  <a href="#default" class="logo">FestiBuddy</a>
+  <div class="header-right">
+    <a class="active" href="{{ logout_url }}">Logout</a>
+    <a href="#contact">Contact</a>
+    <a href="#about">Submit Event</a>
+  </div>
+</div>
+<br>
+<div class="rightcolumn"> 
   <div class="container">
 
-    <h1>Welcome to Notes!</h1>
+          <font color="purple"><h1>Post an Event!</h1></font>
 
-    <p>Hello, <b>{{ user }}</b> - <a href="{{ logout_url }}">Logout</a> </p>
+    <p>Hello, <b>{{ user }}</b> you can post an event here, or you can search for an event's location using the google map to the right. Remember use commas to seprate each part of the list! </p>
 
     <form action="" method="post">
-      <legend>Add a new note</legend>
+      <legend>Add a new Event</legend>
       <div class="form-group">
-        <label for="title">Title:</label>
+        <label for="title">Name of Event:</label>
         <input type="text" id="title" name="title"/>
       </div>
       <div class="form-group">
-        <label for="content">Content:</label>
+        <label for="content">Info about event:</label>
         <textarea id="content" name="content"></textarea>
       </div>
       <div class="form-group">
         <label for="checklist_items">Checklist items:</label>
         <input type="text" id="checklist_items" name="checklist_items"
-               placeholder="comma,separated,values"/>
+               placeholder="Place,Date,Time"/>
       </div>
       <div class="form-group">
-        <button type="submit">Save note</button>
+        <button type="submit">Save Event</button>
       </div>
     </form>
 
@@ -47,6 +306,92 @@
     </div>
     {% endfor %}
   </div>
+</div>
+<div class="leftcolumn">
+        <input id="pac-input" class="controls" type="text" placeholder="Search Box">
+    <div id="map"></div>
+    <script>
+      // This example adds a search box to a map, using the Google Place Autocomplete
+      // feature. People can enter geographical searches. The search box will return a
+      // pick list containing a mix of places and predicted search terms.
+
+      // This example requires the Places library. Include the libraries=places
+      // parameter when you first load the API. For example:
+      // <script src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&libraries=places">
+
+      function initAutocomplete() {
+        var map = new google.maps.Map(document.getElementById('map'), {
+          center: {lat: -33.8688, lng: 151.2195},
+          zoom: 13,
+          mapTypeId: 'roadmap'
+        });
+
+        // Create the search box and link it to the UI element.
+        var input = document.getElementById('pac-input');
+        var searchBox = new google.maps.places.SearchBox(input);
+        map.controls[google.maps.ControlPosition.TOP_LEFT].push(input);
+
+        // Bias the SearchBox results towards current map's viewport.
+        map.addListener('bounds_changed', function() {
+          searchBox.setBounds(map.getBounds());
+        });
+
+        var markers = [];
+        // Listen for the event fired when the user selects a prediction and retrieve
+        // more details for that place.
+        searchBox.addListener('places_changed', function() {
+          var places = searchBox.getPlaces();
+
+          if (places.length == 0) {
+            return;
+          }
+
+          // Clear out the old markers.
+          markers.forEach(function(marker) {
+            marker.setMap(null);
+          });
+          markers = [];
+
+          // For each place, get the icon, name and location.
+          var bounds = new google.maps.LatLngBounds();
+          places.forEach(function(place) {
+            if (!place.geometry) {
+              console.log("Returned place contains no geometry");
+              return;
+            }
+            var icon = {
+              url: place.icon,
+              size: new google.maps.Size(71, 71),
+              origin: new google.maps.Point(0, 0),
+              anchor: new google.maps.Point(17, 34),
+              scaledSize: new google.maps.Size(25, 25)
+            };
+
+            // Create a marker for each place.
+            markers.push(new google.maps.Marker({
+              map: map,
+              icon: icon,
+              title: place.name,
+              position: place.geometry.location
+            }));
+
+            if (place.geometry.viewport) {
+              // Only geocodes have viewport.
+              bounds.union(place.geometry.viewport);
+            } else {
+              bounds.extend(place.geometry.location);
+            }
+          });
+          map.fitBounds(bounds);
+        });
+      }
+
+    </script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAa5hMCChUhcrMF5WukgV7cvEis5EBYU7k&libraries=places&callback=initAutocomplete"
+         async defer></script>
+</div>
+<div class="footer">
+        <p>This is the footer</p>
+</div>
 </body>
-</html>
-~            
+</html>  
