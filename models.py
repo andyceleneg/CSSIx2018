@@ -2,6 +2,7 @@ from google.appengine.ext import ndb
 
 
 class Note(ndb.Model):
+
     title = ndb.StringProperty()
     content = ndb.TextProperty(required=True)
     date_created = ndb.DateTimeProperty(auto_now_add=True)
@@ -10,6 +11,9 @@ class Note(ndb.Model):
 
     @classmethod
     def owner_query(cls, parent_key):
+        print "111"
+        print parent_key
+        print "222"
         return cls.query(ancestor=parent_key).order(
             -cls.date_created)
 

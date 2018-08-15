@@ -19,8 +19,14 @@ class MainHandler(webapp2.RequestHandler):
             context = {}
 
         user = users.get_current_user()
-        ancestor_key = ndb.Key("User", user.nickname())
+        print "abc"
+        print user
+
+        ancestor_key = ndb.Key("User", 'frank')
+        #ancestor_key = ndb.Key("User", user.nickname())
+        print ancestor_key
         qry = Note.owner_query(ancestor_key)
+        print qry
         context['notes'] = qry.fetch()
 
         template = jinja_env.get_template(template_name)
@@ -28,7 +34,8 @@ class MainHandler(webapp2.RequestHandler):
 
     @ndb.transactional
     def _create_note(self, user):
-        note = Note(parent=ndb.Key("User", user.nickname()),
+        #note = Note(parent=ndb.Key("User", user.nickname()),
+        note = Note(parent=ndb.Key("User", 'frank'),
                     title=self.request.get('title'),
                     content=self.request.get('content'))
         note.put()
