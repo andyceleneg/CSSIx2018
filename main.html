@@ -8,8 +8,10 @@
 /* Always set the map height explicitly to define the size of the div
        * element that contains the map. */
       #map {
-        height: 1200px;
-        width: 1000px;
+        height: 700px;
+        width: 1300px;
+        margin-left: auto;
+        margin-right: auto;
       }
       #description {
         font-family: Roboto;
@@ -86,13 +88,13 @@
 /* Left column */
 .leftcolumn {
     float: left;
-    width: 60%;
+    width: 35%;
 }
 
 /* Right column */
 .rightcolumn {
     float: left;
-    width: 40%;
+    width: 65%;
     background-color: #f1f1f1;
     padding-left: 20px;
 }
@@ -250,7 +252,7 @@ p.note-content {
     background-color: black;
     color: white;
     text-align: center;
-    padding: 10px 10px;
+    padding: 30px 30px;
 }
 
 </style>
@@ -265,7 +267,9 @@ p.note-content {
   </div>
 </div>
 <br>
-<div class="rightcolumn"> 
+<table>
+        <tr>
+                <td>
   <div class="container">
 
           <font color="purple"><h1>Post an Event!</h1></font>
@@ -273,44 +277,91 @@ p.note-content {
     <p>Hello, <b>{{ user }}</b> you can post an event here, or you can search for an event's location using the google map to the right. Remember use commas to seprate each part of the list! </p>
 
     <form action="" method="post">
-      <legend>Add a new Event</legend>
+      <legend>Add a new note</legend>
       <div class="form-group">
-        <label for="title">Name of Event:</label>
-        <input type="text" id="title" name="title"/>
+        <label for="title">Title:</label>
+        <input type="text" id="title" name="title" placeholder="Name of Event"/>
       </div>
       <div class="form-group">
-        <label for="content">Info about event:</label>
-        <textarea id="content" name="content"></textarea>
+        <label for="content">Content:</label>
+        <input type="text" id="content" name="content" placeholder="City/Adress"/>
       </div>
       <div class="form-group">
-        <label for="checklist_items">Checklist items:</label>
-        <input type="text" id="checklist_items" name="checklist_items"
-               placeholder="Place,Date,Time"/>
+        <label for="checklist_items">Information on the event:</label>
+        <textarea id="checklist_items" name="checklist_items"></textarea>
       </div>
       <div class="form-group">
-        <button type="submit">Save Event</button>
+        <button type="submit">Save note</button>
       </div>
     </form>
-
+    <br>
+<input type="text" id="myInput" onkeyup="myFunction()" placeholder="Search for names.." title="Type in a name">
+<br>
+  <div class="container">
+          <table id="myTable" bgcolor="white">
     {% for note in notes %}
+            <tr>
+                    <td>
     <div class="note">
       <h4>{{ note.title }}</h4>
-      <p class="note-content">{{ note.content }}</p>
+                    </td>
+
+                    <td>
+      <p class="note-content" id=>{{ note.content }}</p>
+                    </td>
+                    <td>
+
       {% if note.checklist_items %}
+
       <ul>
         {% for item in note.checklist_items %}
         <li class="{%if item.get().checked%}checked{%endif%}">{{item.get().title}}</li>
         {% endfor %}
       </ul>
+                    </td>
+            </tr>
       {% endif %}
     </div>
     {% endfor %}
   </div>
-</div>
-<div class="leftcolumn">
-        <input id="pac-input" class="controls" type="text" placeholder="Search Box">
-    <div id="map"></div>
+          </table>
+
+  <br>
+                </td>
+                <td>
+                </td>
+                <td>
+<input id="pac-input" class="controls" type="text" placeholder="Search Box">
+        <div id="map"></div>
+
+  <div class="footer">
+  </div>
+                </td>
+        </tr>
+</table>
     <script>
+
+function myFunction() {
+  var input, filter, table, tr, td, i;
+  input = document.getElementById("myInput");
+  filter = input.value.toUpperCase();
+  table = document.getElementById("myTable");
+  tr = table.getElementsByTagName("tr");
+  for (i = 0; i < tr.length; i++) {
+    td = tr[i].getElementsByTagName("td")[1];
+    if (td) {
+      if (td.innerHTML.toUpperCase().indexOf(filter) > -1) {
+        tr[i].style.display = "";
+      } else {
+        tr[i].style.display = "none";
+      }
+    }
+  }
+}
+    </script>
+        <script>
+
+
       // This example adds a search box to a map, using the Google Place Autocomplete
       // feature. People can enter geographical searches. The search box will return a
       // pick list containing a mix of places and predicted search terms.
@@ -390,8 +441,6 @@ p.note-content {
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAa5hMCChUhcrMF5WukgV7cvEis5EBYU7k&libraries=places&callback=initAutocomplete"
          async defer></script>
 </div>
-<div class="footer">
-        <p>This is the footer</p>
-</div>
+
 </body>
 </html>  
