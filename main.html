@@ -10,8 +10,7 @@
       #map {
         height: 700px;
         width: 1300px;
-        margin-left: auto;
-        margin-right: auto;
+        
       }
       #description {
         font-family: Roboto;
@@ -252,18 +251,18 @@ p.note-content {
     background-color: black;
     color: white;
     text-align: center;
-    padding: 30px 30px;
+    padding: 20px 20px;
 }
 
 </style>
 </head>
-<body>
+<body bgcolor="white">
   <div class="header">
-  <a href="#default" class="logo">FestiBuddy</a>
+  <a href="#default" class="logo">Celebright</a>
   <div class="header-right">
     <a class="active" href="{{ logout_url }}">Logout</a>
-    <a href="#contact">Contact</a>
-    <a href="#about">Submit Event</a>
+    <a href="http://www.ecst.csuchico.edu/~gsingh2/email.html">Contact Us</a>
+    <a href="#about">View Profile</a>
   </div>
 </div>
 <br>
@@ -274,7 +273,7 @@ p.note-content {
 
           <font color="purple"><h1>Post an Event!</h1></font>
 
-    <p>Hello, <b>{{ user }}</b> you can post an event here, or you can search for an event's location using the google map to the right. Remember use commas to seprate each part of the list! </p>
+    <p>Hello, <b>{{ user }}</b> you can post an event here, or you can search for an event's location using the google map to the right. Remember use commas to seperate each part of the list! </p>
 
     <form action="" method="post">
       <legend>Add a new note</legend>
@@ -284,7 +283,7 @@ p.note-content {
       </div>
       <div class="form-group">
         <label for="content">Content:</label>
-        <input type="text" id="content" name="content" placeholder="City/Adress"/>
+        <input type="text" id="content" name="content" placeholder="Address"/>
       </div>
       <div class="form-group">
         <label for="checklist_items">Information on the event:</label>
@@ -294,8 +293,7 @@ p.note-content {
         <button type="submit">Save note</button>
       </div>
     </form>
-    <br>
-<input type="text" id="myInput" onkeyup="myFunction()" placeholder="Search for names.." title="Type in a name">
+<input type="text" id="myInput" onkeyup="myFunction()" placeholder="Search for location.." title="Type in a name">
 <br>
   <div class="container">
           <table id="myTable" bgcolor="white">
