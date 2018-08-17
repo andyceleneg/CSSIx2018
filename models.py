@@ -10,9 +10,6 @@ class Note(ndb.Model):
 
     @classmethod
     def owner_query(cls, parent_key):
-        print "111"
-        print parent_key
-        print"222"
         return cls.query(ancestor=parent_key).order(
             -cls.date_created)
 
@@ -20,4 +17,3 @@ class Note(ndb.Model):
 class CheckListItem(ndb.Model):
     title = ndb.StringProperty()
     checked = ndb.BooleanProperty(default=False)
-
